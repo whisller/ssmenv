@@ -1,3 +1,2 @@
-Pipfile
-Pipfile.lock
-README.md
+include README.md
+include requirements.txt
