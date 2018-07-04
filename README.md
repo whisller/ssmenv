@@ -6,6 +6,9 @@ If `AWS_ACCESS_KEY_ID` or `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` is set then l
 
 Library reads all all parameters for provided namespace.
 
+## Installation
+`pip install ssm_or_env`
+
 ## Usage
 ```python
 from ssm_or_env import SSM
