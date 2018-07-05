@@ -28,9 +28,7 @@ class SSM(object):
                     search_params['NextToken'] = next_token
 
                 current_set = ssm.get_parameters_by_path(**search_params)
-
                 params += current_set.get('Parameters')
-
                 next_token = current_set.get('NextToken', 0)
 
             for param in params:
