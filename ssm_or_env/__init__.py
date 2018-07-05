@@ -40,15 +40,15 @@ class SSM(object):
         return parameters
 
     def get_full_name(self, resource_type, resource_name, parameter):
-        full_name = '/{type}/{name}'.format(type=resource_type, name=resource_name)
+        full_name = f'/{resource_type}/{resource_name}'
         if parameter:
-            full_name += '/{parameter}'.format(parameter=parameter)
+            full_name += f'/{parameter}'
 
         return full_name
 
     @staticmethod
     def _resolve_namespace(resource):
-        return "/" + resource.replace(':', '/')
+        return '/' + resource.replace(':', '/')
 
     @staticmethod
     def _normalize_name(name, env):
