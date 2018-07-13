@@ -16,9 +16,7 @@ class SSM(object):
         ssm = self._ssm or boto3.client('ssm')
 
         parameters = {}
-        for resource in args:
-            namespace = SSM._resolve_namespace(resource)
-
+        for namespace in args:
             params = []
             next_token = -1
             while next_token != 0:
@@ -36,17 +34,6 @@ class SSM(object):
                 parameters[name] = param if kwargs.get('full') else param.get('Value')
 
         return parameters
-
-    def get_full_name(self, resource_type, resource_name, parameter):
-        full_name = f'/{resource_type}/{resource_name}'
-        if parameter:
-            full_name += f'/{parameter}'
-
-        return full_name
-
-    @staticmethod
-    def _resolve_namespace(resource):
-        return '/' + resource.replace(':', '/')
 
     @staticmethod
     def _normalize_name(name, env):

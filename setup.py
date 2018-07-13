@@ -9,7 +9,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='ssm_or_env',
-    version='0.3',
+    version='0.4',
     description='Reads parameters from AWS SSM if in AWS context, otherwise returns Environment variables',
     long_description=README,
     packages=find_packages(),
