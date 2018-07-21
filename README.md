@@ -7,13 +7,15 @@ If `AWS_ACCESS_KEY_ID` or `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` is set then l
 Library reads all all parameters for provided namespace.
 
 ## Installation
+Library requires `boto3` installed.
+
 `pip install ssm_or_env`
 
 ## Usage
 ```python
 from ssm_or_env import SSM
 
-params = SSM().get_parameters('/resource/mysql', '/service/my-app')
+params = SSM()('/resource/mysql', '/service/my-app')
 print(params)
 # {"RESOURCE_MYSQL_USER": "root", "RESOURCE_MYSQL_PASS: "test123", "SERVICE_MY_APP_DEBUG": True}
 ```

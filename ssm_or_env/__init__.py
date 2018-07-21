@@ -8,7 +8,7 @@ class SSM(object):
     def __init__(self, ssm=None):
         self._ssm = ssm
 
-    def get_parameters(self, *args, **kwargs):
+    def __call__(self, *args, **kwargs):
         if not any((os.environ.get('AWS_ACCESS_KEY_ID'),
                     os.environ.get('AWS_CONTAINER_CREDENTIALS_RELATIVE_URI'))):
             return os.environ
