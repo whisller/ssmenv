@@ -3,6 +3,8 @@ import re
 
 import boto3
 
+__version__ = "0.5"
+
 
 class SSM(object):
     def __init__(self, ssm=None):
