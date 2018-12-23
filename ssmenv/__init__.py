@@ -53,10 +53,20 @@ class SSMEnv(Mapping):
                 next_token = current_set.get("NextToken", 0)
 
             for param in params:
-                name = self._normalize_name(param.get("Name"))
+                name = self._normalize_name(self._remove_prefixes(param.get("Name")))
                 parameters[name] = param.get("Value")
 
         return parameters
+
+    def _remove_prefixes(self, name):
+        if not self._prefixes:
+            return name
+
+        for prefix in self._prefixes:
+            if name.startswith(prefix):
+                name = name.replace(prefix, "")
+
+        return name
 
     def _normalize_name(self, name):
         return re.sub(r"\W", "_", name).upper().strip("_")

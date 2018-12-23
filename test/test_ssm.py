@@ -77,3 +77,13 @@ def test_it_allows_to_populate_os_environ():
     os.environ = {**os.environ, **SSMEnv(("/service/test-4",))}
 
     assert os.environ["SERVICE_TEST_4_FIRST"] == "first-value"
+
+
+@mock_ssm
+def test_it_removes_prefixes():
+    ssm = boto3.client("ssm")
+    ssm.put_parameter(Name="/service/test-5/first", Value="first-value", Type="String")
+
+    ssm_env = SSMEnv(("/service/test-5",), prefixes=("/service/test-5",))
+
+    assert ssm_env["FIRST"] == "first-value"
