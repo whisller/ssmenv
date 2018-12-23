@@ -87,3 +87,9 @@ def test_it_removes_prefixes():
     ssm_env = SSMEnv(("/service/test-5",), prefixes=("/service/test-5",))
 
     assert ssm_env["FIRST"] == "first-value"
+
+
+def test_it_returns_default_dict_if_no_aws():
+    ssm_env = SSMEnv(("/service/test-6",), no_aws_default={"SERVICE_TEST_6_DEBUG": "1"})
+
+    assert ssm_env["SERVICE_TEST_6_DEBUG"] == "1"

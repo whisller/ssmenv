@@ -1,3 +1,4 @@
+import os
 import re
 from collections.abc import Mapping
 
@@ -7,10 +8,11 @@ __version__ = "1.0.1"
 
 
 class SSMEnv(Mapping):
-    def __init__(self, include, prefixes=None, ssm_client=None):
+    def __init__(self, include, prefixes=None, ssm_client=None, no_aws_default=None):
         self._include = include
         self._prefixes = prefixes
         self._ssm_client = ssm_client
+        self._no_aws_default = no_aws_default
         self._data = {}
 
     def __getitem__(self, item):
@@ -32,6 +34,14 @@ class SSMEnv(Mapping):
         return len(self._data)
 
     def _load(self):
+        if self._no_aws_default and not any(
+            (
+                os.environ.get("AWS_ACCESS_KEY_ID"),
+                os.environ.get("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"),
+            )
+        ):
+            return self._no_aws_default
+
         ssm = self._ssm_client or boto3.client("ssm")
 
         parameters = {}
