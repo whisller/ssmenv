@@ -1,4 +1,10 @@
-# SSMEnv
+SSMEnv
+---
+| master  | develop | PyPI | Python | Licence |
+| --- | --- | --- | --- | --- |
+| [![Build Status](https://travis-ci.org/whisller/ssmenv.svg?branch=master)](https://travis-ci.org/whisller/ssmenv)  | [![Build Status](https://travis-ci.org/whisller/ssmenv.svg?branch=develop)](https://travis-ci.org/whisller/ssmenv)  | [![PyPI](https://img.shields.io/pypi/v/ssmenv.svg)](https://pypi.org/project/ssmenv/) | ![](https://img.shields.io/pypi/pyversions/ssmenv.svg) | ![](https://img.shields.io/pypi/l/ssmenv.svg) |
+
+---
 
 Simple helper class that allows you to read values either from environment variables or AWS SSM.
 Depending what is available at the moment.
