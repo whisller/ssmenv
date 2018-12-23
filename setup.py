@@ -2,7 +2,7 @@ import json
 import os
 from setuptools import setup, find_packages
 
-from ssm_or_env import __version__
+from ssm_env import __version__
 
 with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'README.md')) as f:
     README = f.read()
@@ -19,7 +19,7 @@ with open("Pipfile.lock") as fd:
     ]
 
 setup(
-    name='ssm_or_env',
+    name='ssm_env',
     version=__version__,
     description='Reads parameters from AWS parameter store (if possible) or ENV.',
     long_description=README,
