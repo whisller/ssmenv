@@ -6,8 +6,8 @@ with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'README.md'))
 
 setup(
     name='ssm_or_env',
-    version='0.5',
-    description='Reads parameters from AWS SSM if in AWS context, otherwise returns Environment variables',
+    version='0.6',
+    description='Deprecated. Use https://pypi.org/project/ssmenv/ instead.',
     long_description=README,
     packages=find_packages(),
     include_package_data=True,
