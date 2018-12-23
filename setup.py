@@ -27,7 +27,7 @@ setup(
     keywords="aws boto ssm parameter",
     author="Daniel Ancuta",
     author_email="whisller@gmail.com",
-    url="https://github.com/whisller/ssm_or_env",
+    url="https://github.com/whisller/ssmenv",
     license="MIT",
     python_requires=">=3.6",
     classifiers=[
