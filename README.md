@@ -5,8 +5,7 @@ SSMEnv
 | [![Build Status](https://travis-ci.org/whisller/ssmenv.svg?branch=master)](https://travis-ci.org/whisller/ssmenv)  | [![Build Status](https://travis-ci.org/whisller/ssmenv.svg?branch=develop)](https://travis-ci.org/whisller/ssmenv)  | [![PyPI](https://img.shields.io/pypi/v/ssmenv.svg)](https://pypi.org/project/ssmenv/) | ![](https://img.shields.io/pypi/pyversions/ssmenv.svg) | ![](https://img.shields.io/pypi/l/ssmenv.svg) |
 
 ---
-SSMEnv allows you to read parameters from [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html) and operate on results as on dictionary, or populate existing dictionary e.g. `os.environ`,
-so you can read parameters from ENV.
+SSMEnv allows you to read parameters from [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html) and operate on results as on dictionary.
 
 ## Installation
 ```bash
@@ -33,4 +32,13 @@ list(ssmenv.keys())
 list(ssmenv.values())
 
 # and so on.
+```
+
+## Populate `os.environ`
+You can hide use of `SSMEnv` by using `os.environ` dict.
+```python
+import os
+from ssmenv import SSMEnv
+
+os.environ = {**os.environ, **SSMEnv("/service/my-service")}
 ```

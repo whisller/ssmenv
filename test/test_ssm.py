@@ -1,3 +1,5 @@
+import os
+
 import boto3
 import pytest
 from moto import mock_ssm
@@ -65,3 +67,13 @@ def test_it_allows_to_iterate_over_all_parameters():
         "SERVICE_TEST_3_FIRST",
     ]
     assert list(ssm_env.values()) == ["first-value", "second-value", "first-value"]
+
+
+@mock_ssm
+def test_it_allows_to_populate_os_environ():
+    ssm = boto3.client("ssm")
+    ssm.put_parameter(Name="/service/test-4/first", Value="first-value", Type="String")
+
+    os.environ = {**os.environ, **SSMEnv(("/service/test-4",))}
+
+    assert os.environ["SERVICE_TEST_4_FIRST"] == "first-value"
