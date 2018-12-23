@@ -42,3 +42,16 @@ from ssmenv import SSMEnv
 
 os.environ = {**os.environ, **SSMEnv("/service/my-service")}
 ```
+
+## Remove common prefixes
+Accessing your parameters through whole namespaces can sometimes be not convenient
+especially if you have very long names.
+
+Hence why you can use `prefixes` parameter, to make your code cleaner.
+
+ ```python
+from ssmenv import SSMEnv
+
+ssmenv = SSMEnv(("/service/my-service",), prefixes=("/service/my-service",))
+ssmenv["DEBUG"]
+```
