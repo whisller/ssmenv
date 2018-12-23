@@ -1,36 +1,46 @@
-import os
 import re
+from collections.abc import Mapping
 
 import boto3
 
 __version__ = "0.5"
 
 
-class SSM(object):
-    def __init__(self, ssm=None):
-        self._ssm = ssm
+class SSMEnv(Mapping):
+    def __init__(self, include, prefixes=None, inject=None, ssm_client=None):
+        self._include = include
+        self._prefixes = prefixes
+        self._inject = inject
+        self._ssm_client = ssm_client
+        self._data = []
 
-    def __call__(self, *args, **kwargs):
-        if not any(
-            (
-                os.environ.get("AWS_ACCESS_KEY_ID"),
-                os.environ.get("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"),
-            )
-        ):
-            return os.environ
+    def __getitem__(self, item):
+        if not self._data:
+            self._data = self._load()
 
-        ssm = self._ssm or boto3.client("ssm")
+        return self._data[item]
+
+    def __iter__(self):
+        if not self._data:
+            self._data = self._load()
+
+        yield from self._data
+
+    def __len__(self):
+        if not self._data:
+            self._data = self._load()
+
+        return len(self._data)
+
+    def _load(self):
+        ssm = self._ssm_client or boto3.client("ssm")
 
         parameters = {}
-        for namespace in args:
+        for namespace in self._include:
             params = []
             next_token = -1
             while next_token != 0:
-                search_params = {
-                    "Path": namespace,
-                    "WithDecryption": True,
-                    "Recursive": True,
-                }
+                search_params = {"Path": namespace, "WithDecryption": True, "Recursive": True}
 
                 if next_token != -1:
                     search_params["NextToken"] = next_token
@@ -40,14 +50,10 @@ class SSM(object):
                 next_token = current_set.get("NextToken", 0)
 
             for param in params:
-                name = SSM._normalize_name(param.get("Name"), kwargs.get("env", True))
-                parameters[name] = param if kwargs.get("full") else param.get("Value")
+                name = self._normalize_name(param.get("Name"))
+                parameters[name] = param.get("Value")
 
         return parameters
 
-    @staticmethod
-    def _normalize_name(name, env):
-        if env:
-            return re.sub("\W", "_", name).upper().strip("_")
-
-        return name
+    def _normalize_name(self, name):
+        return re.sub(r"\W", "_", name).upper().strip("_")
