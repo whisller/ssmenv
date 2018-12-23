@@ -2,7 +2,7 @@ import boto3
 import pytest
 from moto import mock_ssm
 
-from ssm_env import SSMEnv
+from ssmenv import SSMEnv
 
 
 @mock_ssm
@@ -13,19 +13,16 @@ from ssm_env import SSMEnv
         ("/service/ORG.EXAMPLE.MICROSERVICE", "1", "String"),
         ("/service/ORG-EXAMPLE-MICROSERVICE", "1", "String"),
         ("/service/org-EXAMPLE.microservice", "1", "String"),
-
         ("/service/org.example.microservice", "1", "SecureString"),
         ("/service/ORG.EXAMPLE.MICROSERVICE", "1", "SecureString"),
         ("/service/ORG-EXAMPLE-MICROSERVICE", "1", "SecureString"),
         ("/service/org-EXAMPLE.microservice", "1", "SecureString"),
-    ]
+    ],
 )
 def test_it_returns_single_parameter(ssm_name_prefix, ssm_value, parameter_type):
     ssm = boto3.client("ssm")
     ssm.put_parameter(
-        Name=ssm_name_prefix + "/debug",
-        Value=ssm_value,
-        Type=parameter_type,
+        Name=ssm_name_prefix + "/debug", Value=ssm_value, Type=parameter_type
     )
 
     ssm_env = SSMEnv((ssm_name_prefix,))
@@ -40,15 +37,9 @@ def test_it_returns_single_parameter(ssm_name_prefix, ssm_value, parameter_type)
 @mock_ssm
 def test_it_returns_multiple_parameters_from_different_namespaces():
     ssm = boto3.client("ssm")
+    ssm.put_parameter(Name="/service/test-1/debug", Value="1", Type="String")
     ssm.put_parameter(
-        Name="/service/test-1/debug",
-        Value="1",
-        Type="String",
-    )
-    ssm.put_parameter(
-        Name="/resource/dynamodb/host",
-        Value="https://example.org",
-        Type="String",
+        Name="/resource/dynamodb/host", Value="https://example.org", Type="String"
     )
 
     ssm_env = SSMEnv(("/service/test-1", "/resource/dynamodb"))
@@ -60,23 +51,17 @@ def test_it_returns_multiple_parameters_from_different_namespaces():
 @mock_ssm
 def test_it_allows_to_iterate_over_all_parameters():
     ssm = boto3.client("ssm")
+    ssm.put_parameter(Name="/service/test-2/first", Value="first-value", Type="String")
     ssm.put_parameter(
-        Name="/service/test-2/first",
-        Value="first-value",
-        Type="String",
+        Name="/service/test-2/second", Value="second-value", Type="String"
     )
-    ssm.put_parameter(
-        Name="/service/test-2/second",
-        Value="second-value",
-        Type="String",
-    )
-    ssm.put_parameter(
-        Name="/service/test-3/first",
-        Value="first-value",
-        Type="String",
-    )
+    ssm.put_parameter(Name="/service/test-3/first", Value="first-value", Type="String")
 
     ssm_env = SSMEnv(("/service/test-2", "/service/test-3"))
 
-    assert list(ssm_env.keys()) == ['SERVICE_TEST_2_FIRST', 'SERVICE_TEST_2_SECOND', 'SERVICE_TEST_3_FIRST']
-    assert list(ssm_env.values()) == ['first-value', 'second-value', 'first-value']
+    assert list(ssm_env.keys()) == [
+        "SERVICE_TEST_2_FIRST",
+        "SERVICE_TEST_2_SECOND",
+        "SERVICE_TEST_3_FIRST",
+    ]
+    assert list(ssm_env.values()) == ["first-value", "second-value", "first-value"]

@@ -40,7 +40,11 @@ class SSMEnv(Mapping):
             params = []
             next_token = -1
             while next_token != 0:
-                search_params = {"Path": namespace, "WithDecryption": True, "Recursive": True}
+                search_params = {
+                    "Path": namespace,
+                    "WithDecryption": True,
+                    "Recursive": True,
+                }
 
                 if next_token != -1:
                     search_params["NextToken"] = next_token
