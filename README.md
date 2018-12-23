@@ -8,6 +8,7 @@ SSMEnv
 SSMEnv allows you to read parameters from [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html) and operate on results as on dictionary.
 
 ## Installation
+You have to have `boto3` installed then you can just run:
 ```bash
 pip install ssmenv
 ```

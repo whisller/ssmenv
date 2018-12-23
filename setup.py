@@ -21,7 +21,7 @@ with open("Pipfile.lock") as fd:
 setup(
     name='ssmenv',
     version=__version__,
-    description='Reads parameters from AWS parameter store (if possible) or ENV.',
+    description='Allows you to read parameters from AWS Parameter Store and operate on results as on dictionary.',
     long_description=README,
     long_description_content_type="text/markdown",
     keywords="aws boto ssm parameter",
