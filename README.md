@@ -56,3 +56,16 @@ from ssmenv import SSMEnv
 ssmenv = SSMEnv(("/service/my-service",), prefixes=("/service/my-service",))
 ssmenv["DEBUG"]
 ```
+
+## Return dict in case there is no AWS context
+You might want to run your application without AWS, e.g. through docker on your local machine and mock parameters.
+For that you can use `no_aws_default` attribute.
+
+```python
+import os
+from ssmenv import SSMEnv
+
+os.environ["SERVICE_MY_SERVICE_DEBUG"] = "1" # that might be set in docker-compose
+
+ssmenv = SSMEnv(("/service/my-service",), no_aws_default=os.environ)
+```
