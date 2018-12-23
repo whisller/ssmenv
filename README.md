@@ -5,30 +5,32 @@ SSMEnv
 | [![Build Status](https://travis-ci.org/whisller/ssmenv.svg?branch=master)](https://travis-ci.org/whisller/ssmenv)  | [![Build Status](https://travis-ci.org/whisller/ssmenv.svg?branch=develop)](https://travis-ci.org/whisller/ssmenv)  | [![PyPI](https://img.shields.io/pypi/v/ssmenv.svg)](https://pypi.org/project/ssmenv/) | ![](https://img.shields.io/pypi/pyversions/ssmenv.svg) | ![](https://img.shields.io/pypi/l/ssmenv.svg) |
 
 ---
-
-Simple helper class that allows you to read values either from environment variables or AWS SSM.
-Depending what is available at the moment.
-
-If `AWS_ACCESS_KEY_ID` or `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` is set then library will try to read from AWS SSM.
-
-Library reads all all parameters for provided namespace.
+SSMEnv allows you to read parameters from [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html) and operate on results as on dictionary, or populate existing dictionary e.g. `os.environ`,
+so you can read parameters from ENV.
 
 ## Installation
-Library requires `boto3` installed.
-
-`pip install ssm_or_env`
-
-## Usage
-```python
-from ssm_or_env import SSM
-
-params = SSM()('/resource/mysql', '/service/my-app')
-print(params)
-# {"RESOURCE_MYSQL_USER": "root", "RESOURCE_MYSQL_PASS: "test123", "SERVICE_MY_APP_DEBUG": True}
+```bash
+pip install ssmenv
 ```
 
-## Use cases?
-Imagine any of your code (lambda, app inside docker container) relies on parameters from SSM.
-Now you want to run it locally through e.g. `docker-compose` and want to set some dummy data rather than really connect to AWS SSM.
+## Read parameters
+Reading parameters is as simply as initialising class object.
 
-Library will read from environment variables instead of connecting to AWS SSM.
+```python
+from ssmenv import SSMEnv
+
+ssmenv = SSMEnv(("/service/my-service", "/resource/dynamodb"))
+
+# Accessing parameters
+debug = ssmenv["SERVICE_MY_SERVICE_DEBUG"]
+
+# As it's dictionary we can also:
+
+# 1. Get list of all loaded parameter's names
+list(ssmenv.keys())
+
+# 2. Get list of all loaded parameter's values
+list(ssmenv.values())
+
+# and so on.
+```
