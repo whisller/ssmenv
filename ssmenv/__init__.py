@@ -3,7 +3,7 @@ from collections.abc import Mapping
 
 import boto3
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 
 class SSMEnv(Mapping):
