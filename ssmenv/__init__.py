@@ -12,7 +12,7 @@ class SSMEnv(Mapping):
         self._prefixes = prefixes
         self._inject = inject
         self._ssm_client = ssm_client
-        self._data = []
+        self._data = {}
 
     def __getitem__(self, item):
         if not self._data:
