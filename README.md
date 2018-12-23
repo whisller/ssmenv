@@ -1,4 +1,5 @@
-# SSM or ENV
+# SSMEnv
+
 Simple helper class that allows you to read values either from environment variables or AWS SSM.
 Depending what is available at the moment.
 
