@@ -7,10 +7,9 @@ __version__ = "0.5"
 
 
 class SSMEnv(Mapping):
-    def __init__(self, include, prefixes=None, inject=None, ssm_client=None):
+    def __init__(self, include, prefixes=None, ssm_client=None):
         self._include = include
         self._prefixes = prefixes
-        self._inject = inject
         self._ssm_client = ssm_client
         self._data = {}
 
