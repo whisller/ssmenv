@@ -53,7 +53,7 @@ Hence why you can use `prefixes` parameter, to make your code cleaner.
  ```python
 from ssmenv import SSMEnv
 
-ssmenv = SSMEnv(("/service/my-service",), prefixes=("/service/my-service",))
+ssmenv = SSMEnv("/service/my-service", prefixes=("/service/my-service",))
 ssmenv["DEBUG"]
 ```
 
@@ -67,5 +67,5 @@ from ssmenv import SSMEnv
 
 os.environ["SERVICE_MY_SERVICE_DEBUG"] = "1" # that might be set in docker-compose
 
-ssmenv = SSMEnv(("/service/my-service",), no_aws_default=os.environ)
+ssmenv = SSMEnv("/service/my-service", no_aws_default=os.environ)
 ```
