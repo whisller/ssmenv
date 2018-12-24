@@ -9,7 +9,10 @@ __version__ = "1.1.0"
 
 class SSMEnv(Mapping):
     def __init__(self, include, prefixes=None, ssm_client=None, no_aws_default=None):
-        self._include = include
+        if type(include) == str:
+            self._include = (include,)
+        else:
+            self._include = include
         self._prefixes = prefixes
         self._ssm_client = ssm_client
         self._no_aws_default = no_aws_default
