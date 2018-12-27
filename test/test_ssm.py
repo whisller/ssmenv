@@ -4,7 +4,7 @@ import boto3
 import pytest
 from moto import mock_ssm
 
-from ssmenv import SSMEnv
+from ssmenv import SSMEnv, ssmenv_lambda
 
 
 @mock_ssm
@@ -113,3 +113,21 @@ def test_it_returns_default_dict_if_no_aws():
     )
 
     assert ssm_env["SERVICE_MY_SERVICE_DEBUG"] == "1"
+
+
+@mock_ssm
+def test_it_works_as_decorator_for_lambda_function():
+    class MockContext:
+        pass
+
+    ssm = boto3.client("ssm")
+    ssm.put_parameter(
+        Name="/service/my-service/first", Value="first-value", Type="String"
+    )
+
+    @ssmenv_lambda("/service/my-service")
+    def handler(event, context):
+        assert "SERVICE_MY_SERVICE_FIRST" in context.params
+        assert context.params["SERVICE_MY_SERVICE_FIRST"] == "first-value"
+
+    handler({}, MockContext())
