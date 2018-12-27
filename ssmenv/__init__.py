@@ -5,7 +5,7 @@ from collections.abc import Mapping
 
 import boto3
 
-__version__ = "1.3.0"
+__version__ = "1.3.1"
 
 
 class SSMEnv(Mapping):
@@ -83,20 +83,20 @@ class SSMEnv(Mapping):
         return re.sub(r"\W", "_", name).upper().strip("_")
 
 
-lambda_ssmenv = None
+_lambda_ssmenv = None
 
 
-def ssmenv_lambda(*args, **kwargs):
+def ssmenv(*args, **kwargs):
     def wrapper_wrapper(handler):
         @functools.wraps(handler)
         def wrapper(event, context):
             if not hasattr(context, "params"):
                 context.params = {}
 
-            global lambda_ssmenv
-            if not lambda_ssmenv:
-                lambda_ssmenv = SSMEnv(*args, **kwargs)
-            context.params = lambda_ssmenv if lambda_ssmenv else SSMEnv(*args, **kwargs)
+            global _lambda_ssmenv
+            if not _lambda_ssmenv:
+                _lambda_ssmenv = SSMEnv(*args, **kwargs)
+            context.params = _lambda_ssmenv if _lambda_ssmenv else SSMEnv(*args, **kwargs)
 
             return handler(event, context)
 
