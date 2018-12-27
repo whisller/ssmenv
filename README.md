@@ -58,9 +58,9 @@ Now `ssmenv` will have all parameters from both `/service/my-service` and `/reso
 If you use AWS lambda, you might find handy `ssmenv_lambda` decorator. It behaves same as if you would initialise `SSMEnv` by hand, but additionally it injects instance of `SSMEnv` into `context.params` attribute.
 
 ```python
-from ssmenv import ssmenv_lambda
+from ssmenv import ssmenv
 
-@ssmenv_lambda("/service/my-service")
+@ssmenv("/service/my-service")
 def handler(event, context):
     return context.params
 ```

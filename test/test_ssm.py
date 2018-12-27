@@ -4,7 +4,7 @@ import boto3
 import pytest
 from moto import mock_ssm
 
-from ssmenv import SSMEnv, ssmenv_lambda
+from ssmenv import SSMEnv, ssmenv
 
 
 @mock_ssm
@@ -125,7 +125,7 @@ def test_it_works_as_decorator_for_lambda_function():
         Name="/service/my-service/first", Value="first-value", Type="String"
     )
 
-    @ssmenv_lambda("/service/my-service")
+    @ssmenv("/service/my-service")
     def handler(event, context):
         assert "SERVICE_MY_SERVICE_FIRST" in context.params
         assert context.params["SERVICE_MY_SERVICE_FIRST"] == "first-value"
