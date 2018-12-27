@@ -1,3 +1,4 @@
+import functools
 import os
 import re
 from collections.abc import Mapping
@@ -9,10 +10,7 @@ __version__ = "1.2.0"
 
 class SSMEnv(Mapping):
     def __init__(self, include, prefixes=None, ssm_client=None, no_aws_default=None):
-        if type(include) == str:
-            self._include = (include,)
-        else:
-            self._include = include
+        self._include = (include,) if type(include) == str else include
         self._prefixes = prefixes
         self._ssm_client = ssm_client
         self._no_aws_default = no_aws_default
@@ -83,3 +81,25 @@ class SSMEnv(Mapping):
 
     def _normalize_name(self, name):
         return re.sub(r"\W", "_", name).upper().strip("_")
+
+
+lambda_ssmenv = None
+
+
+def ssmenv_lambda(*args, **kwargs):
+    def wrapper_wrapper(handler):
+        @functools.wraps(handler)
+        def wrapper(event, context):
+            if not hasattr(context, "params"):
+                context.params = {}
+
+            global lambda_ssmenv
+            if not lambda_ssmenv:
+                lambda_ssmenv = SSMEnv(*args, **kwargs)
+            context.params = lambda_ssmenv if lambda_ssmenv else SSMEnv(*args, **kwargs)
+
+            return handler(event, context)
+
+        return wrapper
+
+    return wrapper_wrapper
