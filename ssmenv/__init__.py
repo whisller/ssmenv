@@ -5,7 +5,7 @@ from collections.abc import Mapping
 
 import boto3
 
-__version__ = "1.3.1"
+__version__ = "1.3.2"
 
 
 class SSMEnv(Mapping):
@@ -96,7 +96,9 @@ def ssmenv(*args, **kwargs):
             global _lambda_ssmenv
             if not _lambda_ssmenv:
                 _lambda_ssmenv = SSMEnv(*args, **kwargs)
-            context.params = _lambda_ssmenv if _lambda_ssmenv else SSMEnv(*args, **kwargs)
+            context.params = (
+                _lambda_ssmenv if _lambda_ssmenv else SSMEnv(*args, **kwargs)
+            )
 
             return handler(event, context)
 
