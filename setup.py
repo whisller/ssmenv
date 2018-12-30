@@ -24,7 +24,7 @@ setup(
     description='Allows you to read parameters from AWS Parameter Store and operate on results as on dictionary.',
     long_description=README,
     long_description_content_type="text/markdown",
-    keywords="aws boto ssm parameter",
+    keywords="aws boto ssm parameter parameter-store lambda environment-variables",
     author="Daniel Ancuta",
     author_email="whisller@gmail.com",
     url="https://github.com/whisller/ssmenv",

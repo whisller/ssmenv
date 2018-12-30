@@ -8,4 +8,6 @@ install:
   - "pipenv install --dev"
 script:
   - "black --check ssmenv test"
-  - "pytest test -vv"
+  - "pytest --cov=ssmenv --cov-report term test -vv"
+after_success:
+  - coveralls

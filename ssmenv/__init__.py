@@ -1,38 +1,21 @@
 import functools
 import os
 import re
-from collections.abc import Mapping
+from collections import UserDict
 
 import boto3
 
-__version__ = "1.3.2"
+__version__ = "1.4.0"
 
 
-class SSMEnv(Mapping):
+class SSMEnv(UserDict):
     def __init__(self, include, prefixes=None, ssm_client=None, no_aws_default=None):
         self._include = (include,) if type(include) == str else include
         self._prefixes = prefixes
         self._ssm_client = ssm_client
         self._no_aws_default = no_aws_default
-        self._data = {}
 
-    def __getitem__(self, item):
-        if not self._data:
-            self._data = self._load()
-
-        return self._data[item]
-
-    def __iter__(self):
-        if not self._data:
-            self._data = self._load()
-
-        yield from self._data
-
-    def __len__(self):
-        if not self._data:
-            self._data = self._load()
-
-        return len(self._data)
+        super().__init__(self._load())
 
     def _load(self):
         if self._no_aws_default and not any(
