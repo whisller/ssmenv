@@ -14,14 +14,15 @@ pip install ssmenv
 ```
 
 ## Reading parameters
-Reading parameters is as simple as initialising class object.
+Let's assume we have two parameters `token` and `url` under `/service/my-service` namespace.
+Reading both parameters is as simple as initialising class object.
 ```python
 from ssmenv import SSMEnv
 
 params = SSMEnv("/service/my-service")
 ```
 
-Done!
+Done! Now we can access `/service/my-service/token` and `/service/my-service/url` in `params` variable!
 
 Now `params` can be accesses as python `dict` type.
 
@@ -33,7 +34,7 @@ from ssmenv import SSMEnv
 params = SSMEnv("/service/my-service")
 
 # 1. Access value directly
-debug = params["SERVICE_MY_SERVICE_DEBUG"]
+token = params["SERVICE_MY_SERVICE_TOKEN"]
 
 # 2. Get list of all loaded parameter's names
 list(params.keys())
@@ -84,7 +85,7 @@ Hence why you can use `prefixes` parameter, to make your code cleaner.
 from ssmenv import SSMEnv
 
 params = SSMEnv("/service/my-service", prefixes=("/service/my-service",))
-params["DEBUG"]
+params["TOKEN"]
 ```
 
 ## Returning dict in case there is no AWS context
@@ -95,7 +96,7 @@ For that you can use `no_aws_default` attribute.
 import os
 from ssmenv import SSMEnv
 
-os.environ["SERVICE_MY_SERVICE_DEBUG"] = "1" # that might be set in docker-compose
+os.environ["SERVICE_MY_SERVICE_TOKEN"] = "mocked-token" # that might be set in docker-compose
 
 params = SSMEnv("/service/my-service", no_aws_default=os.environ)
 ```
