@@ -1,8 +1,8 @@
 SSMEnv
 ---
-| master  | develop | coverage | PyPI | Python | Licence |
+| master  | coverage | PyPI | Python | Licence |
 | --- | --- | --- | --- | --- | --- |
-| [![Build Status](https://travis-ci.org/whisller/ssmenv.svg?branch=master)](https://travis-ci.org/whisller/ssmenv)  | [![Build Status](https://travis-ci.org/whisller/ssmenv.svg?branch=develop)](https://travis-ci.org/whisller/ssmenv) | [![Coverage Status](https://coveralls.io/repos/github/whisller/ssmenv/badge.svg?branch=develop)](https://coveralls.io/github/whisller/ssmenv?branch=develop) | [![PyPI](https://img.shields.io/pypi/v/ssmenv.svg)](https://pypi.org/project/ssmenv/) | ![](https://img.shields.io/pypi/pyversions/ssmenv.svg) | ![](https://img.shields.io/pypi/l/ssmenv.svg) |
+| [![Build Status](https://travis-ci.org/whisller/ssmenv.svg?branch=master)](https://travis-ci.org/whisller/ssmenv) | [![Coverage Status](https://coveralls.io/repos/github/whisller/ssmenv/badge.svg?branch=develop)](https://coveralls.io/github/whisller/ssmenv?branch=develop) | [![PyPI](https://img.shields.io/pypi/v/ssmenv.svg)](https://pypi.org/project/ssmenv/) | ![](https://img.shields.io/pypi/pyversions/ssmenv.svg) | ![](https://img.shields.io/pypi/l/ssmenv.svg) |
 
 ---
 SSMEnv allows you to read parameters from [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html) and operate on results as on dictionary.
