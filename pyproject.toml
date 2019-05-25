@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "ssmenv"
+version = "1.4.0"
+description = "Allows you to read parameters from AWS Parameter Store and operate on results as on dictionary."
+authors = ["Daniel Ancuta <whisller@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/whisller/ssmenv"
+repository = "https://github.com/whisller/ssmenv"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Other Environment",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development :: Libraries"
+]
+keywords = ["aws", "boto", "ssm", "parameter-store", "lambda"]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+boto3 = "^1.9"
+
+[tool.poetry.dev-dependencies]
+pytest = "^4.5"
+black = "=19.3b0"
+moto = "^1.3"
+pytest-cov = "^2.6"
+coveralls = "^1.7"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

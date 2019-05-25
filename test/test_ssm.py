@@ -108,6 +108,7 @@ def test_it_removes_prefixes():
 
 
 def test_it_returns_default_dict_if_no_aws():
+    del os.environ["AWS_ACCESS_KEY_ID"]
     ssm_env = SSMEnv(
         ("/service/my-service",), no_aws_default={"SERVICE_MY_SERVICE_DEBUG": "1"}
     )
