@@ -7,8 +7,12 @@ import boto3
 
 
 class SSMEnv(UserDict):
-    def __init__(self, include, prefixes=None, ssm_client=None, no_aws_default=None):
-        self._include = (include,) if type(include) == str else include
+    def __init__(
+        self, *args, include=None, prefixes=None, ssm_client=None, no_aws_default=None
+    ):
+        self._include = (
+            args[0] if args else (include,) if type(include) == str else include
+        )
         self._prefixes = prefixes
         self._ssm_client = ssm_client
         self._no_aws_default = no_aws_default
