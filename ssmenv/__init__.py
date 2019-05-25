@@ -5,8 +5,6 @@ from collections import UserDict
 
 import boto3
 
-__version__ = "1.4.0"
-
 
 class SSMEnv(UserDict):
     def __init__(self, include, prefixes=None, ssm_client=None, no_aws_default=None):
