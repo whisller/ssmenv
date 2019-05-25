@@ -51,7 +51,7 @@ by passing `tuple`
 ```python
 from ssmenv import SSMEnv
 
-params = SSMEnv(("/service/my-service", "/resource/mysql"))
+params = SSMEnv("/service/my-service", "/resource/mysql")
 ```
 Now `params` will have all parameters from both `/service/my-service` and `/resource/mysql`.
 

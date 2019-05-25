@@ -54,10 +54,15 @@ def test_it_returns_multiple_parameters_from_different_namespaces():
 def test_it_allows_to_pass_include_argument_as_string():
     ssm = boto3.client("ssm")
     ssm.put_parameter(Name="/service/my-service/debug", Value="1", Type="String")
+    ssm.put_parameter(Name="/service/other-service/debug", Value="1", Type="String")
 
     ssm_env = SSMEnv("/service/my-service")
 
     assert ssm_env["SERVICE_MY_SERVICE_DEBUG"] == "1"
+
+    ssm_env = SSMEnv("/service/my-service", "/service/other-service")
+    assert ssm_env["SERVICE_MY_SERVICE_DEBUG"] == "1"
+    assert ssm_env["SERVICE_OTHER_SERVICE_DEBUG"] == "1"
 
 
 @mock_ssm
