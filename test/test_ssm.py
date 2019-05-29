@@ -27,7 +27,7 @@ def test_it_returns_single_parameter(ssm_name_prefix, ssm_value, parameter_type)
         Name=ssm_name_prefix + "/debug", Value=ssm_value, Type=parameter_type
     )
 
-    ssm_env = SSMEnv((ssm_name_prefix,))
+    ssm_env = SSMEnv(ssm_name_prefix)
     assert ssm_env["SERVICE_ORG_EXAMPLE_MICROSERVICE_DEBUG"] == "1"
 
     param = ssm.get_parameter(Name=ssm_name_prefix + "/debug")
@@ -44,25 +44,10 @@ def test_it_returns_multiple_parameters_from_different_namespaces():
         Name="/resource/dynamodb/host", Value="https://example.org", Type="String"
     )
 
-    ssm_env = SSMEnv(("/service/my-service", "/resource/dynamodb"))
+    ssm_env = SSMEnv("/service/my-service", "/resource/dynamodb")
 
     assert ssm_env["SERVICE_MY_SERVICE_DEBUG"] == "1"
     assert ssm_env["RESOURCE_DYNAMODB_HOST"] == "https://example.org"
-
-
-@mock_ssm
-def test_it_allows_to_pass_include_argument_as_string():
-    ssm = boto3.client("ssm")
-    ssm.put_parameter(Name="/service/my-service/debug", Value="1", Type="String")
-    ssm.put_parameter(Name="/service/other-service/debug", Value="1", Type="String")
-
-    ssm_env = SSMEnv("/service/my-service")
-
-    assert ssm_env["SERVICE_MY_SERVICE_DEBUG"] == "1"
-
-    ssm_env = SSMEnv("/service/my-service", "/service/other-service")
-    assert ssm_env["SERVICE_MY_SERVICE_DEBUG"] == "1"
-    assert ssm_env["SERVICE_OTHER_SERVICE_DEBUG"] == "1"
 
 
 @mock_ssm
@@ -78,7 +63,7 @@ def test_it_allows_to_iterate_over_all_parameters():
         Name="/service/my-service-second/first", Value="first-value", Type="String"
     )
 
-    ssm_env = SSMEnv(("/service/my-service-first", "/service/my-service-second"))
+    ssm_env = SSMEnv("/service/my-service-first", "/service/my-service-second")
 
     assert list(ssm_env.keys()) == [
         "SERVICE_MY_SERVICE_FIRST_FIRST",
@@ -95,7 +80,7 @@ def test_it_allows_to_populate_os_environ():
         Name="/service/my-service/first", Value="first-value", Type="String"
     )
 
-    os.environ = {**os.environ, **SSMEnv(("/service/my-service",))}
+    os.environ = {**os.environ, **SSMEnv("/service/my-service")}
 
     assert os.environ["SERVICE_MY_SERVICE_FIRST"] == "first-value"
 
@@ -107,7 +92,7 @@ def test_it_removes_prefixes():
         Name="/service/my-service/first", Value="first-value", Type="String"
     )
 
-    ssm_env = SSMEnv(("/service/my-service",), prefixes=("/service/my-service",))
+    ssm_env = SSMEnv("/service/my-service", prefixes=("/service/my-service",))
 
     assert ssm_env["FIRST"] == "first-value"
 
@@ -115,7 +100,7 @@ def test_it_removes_prefixes():
 def test_it_returns_default_dict_if_no_aws():
     del os.environ["AWS_ACCESS_KEY_ID"]
     ssm_env = SSMEnv(
-        ("/service/my-service",), no_aws_default={"SERVICE_MY_SERVICE_DEBUG": "1"}
+        "/service/my-service", no_aws_default={"SERVICE_MY_SERVICE_DEBUG": "1"}
     )
 
     assert ssm_env["SERVICE_MY_SERVICE_DEBUG"] == "1"

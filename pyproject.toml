@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ssmenv"
-version = "1.5.0"
+version = "2.0.0"
 description = "Allows you to read parameters from AWS Parameter Store and operate on results as on dictionary."
 authors = ["Daniel Ancuta <whisller@gmail.com>"]
 license = "MIT"
