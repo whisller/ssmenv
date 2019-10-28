@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ssmenv"
-version = "2.0.0"
+version = "2.1.0"
 description = "Allows you to read parameters from AWS Parameter Store and operate on results as on dictionary."
 authors = ["Daniel Ancuta <whisller@gmail.com>"]
 license = "MIT"
@@ -17,6 +17,7 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3 :: Only",
     "Topic :: Software Development :: Libraries"
 ]
