@@ -5,6 +5,10 @@ SSMEnv
 | [![Build Status](https://travis-ci.org/whisller/ssmenv.svg?branch=master)](https://travis-ci.org/whisller/ssmenv) | [![Coverage Status](https://coveralls.io/repos/github/whisller/ssmenv/badge.svg?branch=develop)](https://coveralls.io/github/whisller/ssmenv?branch=develop) | [![PyPI](https://img.shields.io/pypi/v/ssmenv.svg)](https://pypi.org/project/ssmenv/) | ![](https://img.shields.io/pypi/pyversions/ssmenv.svg) | ![](https://img.shields.io/pypi/l/ssmenv.svg) |
 
 ---
+# This is readonly repository. 
+## Have a look at [aws-lambda-powertools-python](https://github.com/awslabs/aws-lambda-powertools-python)
+
+
 SSMEnv allows you to read parameters from [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html) and operate on results as on dictionary.
 
 ## Installation
